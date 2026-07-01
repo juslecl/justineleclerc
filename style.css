@@ -1,0 +1,350 @@
+block (--c-general, --c-pub, etc). Change the
+     hex codes there to re-theme the whole site.
+  5. To publish on GitHub Pages: put this file in a repo as `index.html`,
+     then enable Pages in the repo Settings → Pages → Deploy from branch.
+======================================================================= -->
+<style>
+  /* ==========================================================================
+   Site styles — colors, type, and layout for the tabbed academic page.
+   Edit the hex values below under :root to re-theme the whole site.
+   ========================================================================== */
+
+:root{
+    /* ---------- EDIT ME: palette ---------- */
+    --paper:      #FAFAF7;
+    --paper-alt:  #F1F0EA;
+    --ink:        #1B1B1F;
+    --ink-soft:   #5B5A63;
+    --line:       #E4E2D9;
+
+    --c-general:  #FF6B5A; /* coral   */
+    --c-pub:      #14B8A6; /* teal    */
+    --c-talks:    #8B5CF6; /* violet  */
+    --c-teach:    #F59E0B; /* amber   */
+    --c-hobby:    #EC4899; /* magenta */
+
+    --accent: var(--c-general);
+    --radius: 18px;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+    margin: 0 0 .4em 0;
+  }
+
+  .mono{
+    font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  /* ---------- Layout shell ---------- */
+  .shell{
+    display:flex;
+    min-height:100vh;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width: 300px;
+    flex-shrink:0;
+    padding: 48px 28px;
+    display:flex;
+    flex-direction:column;
+    gap: 28px;
+    border-right: 1px solid var(--line);
+    position: sticky;
+    top:0;
+    height:100vh;
+  }
+
+  .avatar{
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-general), var(--c-talks));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-family:'Space Grotesk', sans-serif;
+    font-size: 2.6rem;
+    font-weight:600;
+    overflow:hidden;
+    border: 4px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--line);
+  }
+  /* EDIT ME: replace the div above with your photo, e.g.
+     <img src="your-photo.jpg" alt="Your Name" style="width:100%;height:100%;object-fit:cover;">
+     inside a div with class="avatar" (keep the class for the circular shape). */
+  .avatar img{ width:100%; height:100%; object-fit:cover; }
+
+  .id-block h1{ font-size: 1.5rem; }
+  .id-block .role{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin-top: 2px;
+  }
+  .id-block .place{
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+
+  nav.tabs{
+    display:flex;
+    flex-direction:column;
+    gap: 4px;
+  }
+  nav.tabs button{
+    all: unset;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  nav.tabs button .dot{
+    width: 9px; height:9px; border-radius:50%;
+    background: currentColor;
+    opacity: 0.35;
+    flex-shrink:0;
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  nav.tabs button:hover{ background: var(--paper-alt); color: var(--ink); }
+  nav.tabs button:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+  nav.tabs button.active{
+    background: var(--paper-alt);
+    color: var(--ink);
+  }
+  nav.tabs button.active .dot{
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  nav.tabs button[data-tab="general"]{ --tab-color: var(--c-general); }
+  nav.tabs button[data-tab="publications"]{ --tab-color: var(--c-pub); }
+  nav.tabs button[data-tab="talks"]{ --tab-color: var(--c-talks); }
+  nav.tabs button[data-tab="teaching"]{ --tab-color: var(--c-teach); }
+  nav.tabs button[data-tab="hobbies"]{ --tab-color: var(--c-hobby); }
+  nav.tabs button.active{ color: var(--tab-color); }
+  nav.tabs button.active .dot{ background: var(--tab-color); }
+
+  .social{
+    margin-top: auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap: 8px;
+  }
+  .social a{
+    font-size: 0.78rem;
+    padding: 6px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .social a:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Main content ---------- */
+  main{
+    flex:1;
+    padding: 56px 48px 80px;
+    min-width:0;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color: var(--accent);
+    font-weight:600;
+    margin-bottom: 10px;
+  }
+  .eyebrow .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
+
+  section.panel{ display:none; }
+  section.panel.active{
+    display:block;
+    animation: rise .35s ease both;
+  }
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(8px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    section.panel.active{ animation:none; }
+  }
+
+  .panel > h2{ font-size: 2rem; }
+  .panel > .sub{ color: var(--ink-soft); max-width: 620px; margin-bottom: 32px; }
+
+  /* General tab */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .card{
+    background: var(--paper-alt);
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    border: 1px solid var(--line);
+  }
+  .card h3{ font-size: 1.05rem; }
+  .card p{ color: var(--ink-soft); font-size: 0.94rem; }
+  .badge-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .badge{
+    font-size: 0.76rem;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  /* Publications tab */
+  .pub-item{
+    display:grid;
+    grid-template-columns: 90px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pub-item:last-child{ border-bottom:none; }
+  .pub-year{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    color: var(--c-pub);
+  }
+  .pub-item h3{ font-size: 1.02rem; }
+  .pub-authors{ color: var(--ink-soft); font-size: 0.88rem; margin: 2px 0 6px; }
+  .pub-venue{ font-size: 0.82rem; color: var(--ink-soft); }
+  .pub-links{ margin-top: 8px; display:flex; gap:10px; }
+  .pub-links a{
+    font-size: 0.78rem;
+    color: var(--c-pub);
+    border-bottom: 1px solid transparent;
+  }
+  .pub-links a:hover{ border-color: var(--c-pub); }
+
+  /* Talks tab */
+  .talk-item{
+    display:flex;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    align-items:flex-start;
+  }
+  .talk-item:last-child{ border-bottom:none; }
+  .talk-tag{
+    flex-shrink:0;
+    font-size: 0.72rem;
+    font-weight:600;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-talks) 14%, white);
+    color: var(--c-talks);
+    white-space:nowrap;
+    margin-top: 3px;
+  }
+  .talk-item h3{ font-size: 1.0rem; }
+  .talk-meta{ color: var(--ink-soft); font-size: 0.85rem; }
+
+  /* Teaching tab */
+  .teach-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .teach-card{
+    background: var(--paper-alt);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--c-teach);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .teach-card h3{ font-size: 1rem; }
+  .teach-card .role{ font-size: 0.8rem; color: var(--c-teach); font-weight:600; margin-bottom:6px; }
+  .teach-card p{ color: var(--ink-soft); font-size: 0.88rem; margin: 0; }
+
+  /* Hobbies tab */
+  .hobby-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .hobby-card{
+    border-radius: var(--radius);
+    padding: 22px;
+    color: white;
+    min-height: 140px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    position:relative;
+    overflow:hidden;
+  }
+  .hobby-card h3{ font-size: 1rem; margin-bottom:2px; }
+  .hobby-card p{ font-size: 0.85rem; opacity:0.9; margin:0; }
+  .hobby-card::before{
+    content:"";
+    position:absolute; inset:0;
+    opacity:0.9;
+  }
+  .hobby-card > *{ position:relative; z-index:1; }
+  .hobby-card.c1::before{ background: linear-gradient(160deg, var(--c-hobby), var(--c-talks)); }
+  .hobby-card.c2::before{ background: linear-gradient(160deg, var(--c-teach), var(--c-general)); }
+  .hobby-card.c3::before{ background: linear-gradient(160deg, var(--c-pub), var(--c-talks)); }
+  .hobby-card.c4::before{ background: linear-gradient(160deg, var(--c-general), var(--c-hobby)); }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 820px){
+    .shell{ flex-direction:column; }
+    .sidebar{
+      position: relative;
+      height:auto;
+      width:100%;
+      flex-direction:row;
+      align-items:center;
+      flex-wrap:wrap;
+      border-right:none;
+      border-bottom: 1px solid var(--line);
+      padding: 24px 20px;
+    }
+    .id-block{ flex:1; }
+    nav.tabs{
+      flex-direction:row;
+      overflow-x:auto;
+      width:100%;
+      order:3;
+      gap: 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    nav.tabs button{ white-space:nowrap; }
+    .social{ order:4; margin-top:0; }
+    main{ padding: 32px 20px 60px; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .avatar{ width: 88px; height:88px; font-size:1.8rem; }
+  }
